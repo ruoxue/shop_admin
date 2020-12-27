@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.shop.mapper.DataRegionMapper">
+    
+    <resultMap type="DataRegion" id="DataRegionResult">
+        <result property="id"    column="id"    />
+        <result property="pid"    column="pid"    />
+        <result property="shortname"    column="shortname"    />
+        <result property="name"    column="name"    />
+        <result property="mergerName"    column="merger_name"    />
+        <result property="level"    column="level"    />
+        <result property="pinyin"    column="pinyin"    />
+        <result property="code"    column="code"    />
+        <result property="zipCode"    column="zip_code"    />
+        <result property="first"    column="first"    />
+        <result property="lng"    column="lng"    />
+        <result property="lat"    column="lat"    />
+    </resultMap>
+
+    <sql id="selectDataRegionVo">
+        select id, pid, shortname, name, merger_name, level, pinyin, code, zip_code, first, lng, lat from data_region
+    </sql>
+
+    <select id="selectDataRegionList" parameterType="DataRegion" resultMap="DataRegionResult">
+        <include refid="selectDataRegionVo"/>
+        <where>  
+            <if test="pid != null "> and pid = #{pid}</if>
+            <if test="shortname != null  and shortname != ''"> and shortname like concat('%', #{shortname}, '%')</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="mergerName != null  and mergerName != ''"> and merger_name like concat('%', #{mergerName}, '%')</if>
+            <if test="level != null "> and level = #{level}</if>
+            <if test="pinyin != null  and pinyin != ''"> and pinyin = #{pinyin}</if>
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="zipCode != null  and zipCode != ''"> and zip_code = #{zipCode}</if>
+            <if test="first != null  and first != ''"> and first = #{first}</if>
+            <if test="lng != null  and lng != ''"> and lng = #{lng}</if>
+            <if test="lat != null  and lat != ''"> and lat = #{lat}</if>
+        </where>
+    </select>
+    
+    <select id="selectDataRegionById" parameterType="Long" resultMap="DataRegionResult">
+        <include refid="selectDataRegionVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDataRegion" parameterType="DataRegion" useGeneratedKeys="true" keyProperty="id">
+        insert into data_region
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pid != null">pid,</if>
+            <if test="shortname != null">shortname,</if>
+            <if test="name != null">name,</if>
+            <if test="mergerName != null">merger_name,</if>
+            <if test="level != null">level,</if>
+            <if test="pinyin != null">pinyin,</if>
+            <if test="code != null">code,</if>
+            <if test="zipCode != null">zip_code,</if>
+            <if test="first != null">first,</if>
+            <if test="lng != null">lng,</if>
+            <if test="lat != null">lat,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pid != null">#{pid},</if>
+            <if test="shortname != null">#{shortname},</if>
+            <if test="name != null">#{name},</if>
+            <if test="mergerName != null">#{mergerName},</if>
+            <if test="level != null">#{level},</if>
+            <if test="pinyin != null">#{pinyin},</if>
+            <if test="code != null">#{code},</if>
+            <if test="zipCode != null">#{zipCode},</if>
+            <if test="first != null">#{first},</if>
+            <if test="lng != null">#{lng},</if>
+            <if test="lat != null">#{lat},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDataRegion" parameterType="DataRegion">
+        update data_region
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pid != null">pid = #{pid},</if>
+            <if test="shortname != null">shortname = #{shortname},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="mergerName != null">merger_name = #{mergerName},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="pinyin != null">pinyin = #{pinyin},</if>
+            <if test="code != null">code = #{code},</if>
+            <if test="zipCode != null">zip_code = #{zipCode},</if>
+            <if test="first != null">first = #{first},</if>
+            <if test="lng != null">lng = #{lng},</if>
+            <if test="lat != null">lat = #{lat},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDataRegionById" parameterType="Long">
+        delete from data_region where id = #{id}
+    </delete>
+
+    <delete id="deleteDataRegionByIds" parameterType="String">
+        delete from data_region where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

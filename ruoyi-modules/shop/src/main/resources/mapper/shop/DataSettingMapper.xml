@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.shop.mapper.DataSettingMapper">
+    
+    <resultMap type="DataSetting" id="DataSettingResult">
+        <result property="key"    column="key"    />
+        <result property="describe"    column="describe"    />
+        <result property="values"    column="values"    />
+        <result property="wxappId"    column="wxapp_id"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectDataSettingVo">
+        select key, describe, values, wxapp_id, update_time from data_setting
+    </sql>
+
+    <select id="selectDataSettingList" parameterType="DataSetting" resultMap="DataSettingResult">
+        <include refid="selectDataSettingVo"/>
+        <where>  
+            <if test="describe != null  and describe != ''"> and describe = #{describe}</if>
+            <if test="values != null  and values != ''"> and values = #{values}</if>
+        </where>
+    </select>
+    
+    <select id="selectDataSettingById" parameterType="String" resultMap="DataSettingResult">
+        <include refid="selectDataSettingVo"/>
+        where key = #{key}
+    </select>
+        
+    <insert id="insertDataSetting" parameterType="DataSetting">
+        insert into data_setting
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="key != null">key,</if>
+            <if test="describe != null and describe != ''">describe,</if>
+            <if test="values != null and values != ''">values,</if>
+            <if test="wxappId != null">wxapp_id,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="key != null">#{key},</if>
+            <if test="describe != null and describe != ''">#{describe},</if>
+            <if test="values != null and values != ''">#{values},</if>
+            <if test="wxappId != null">#{wxappId},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDataSetting" parameterType="DataSetting">
+        update data_setting
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="describe != null and describe != ''">describe = #{describe},</if>
+            <if test="values != null and values != ''">values = #{values},</if>
+            <if test="wxappId != null">wxapp_id = #{wxappId},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where key = #{key}
+    </update>
+
+    <delete id="deleteDataSettingById" parameterType="String">
+        delete from data_setting where key = #{key}
+    </delete>
+
+    <delete id="deleteDataSettingByIds" parameterType="String">
+        delete from data_setting where key in 
+        <foreach item="key" collection="array" open="(" separator="," close=")">
+            #{key}
+        </foreach>
+    </delete>
+    
+</mapper>

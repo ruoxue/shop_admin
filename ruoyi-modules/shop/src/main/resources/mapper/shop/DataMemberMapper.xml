@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.shop.mapper.DataMemberMapper">
+    
+    <resultMap type="DataMember" id="DataMemberResult">
+        <result property="id"    column="id"    />
+        <result property="from"    column="from"    />
+        <result property="token"    column="token"    />
+        <result property="tokenv"    column="tokenv"    />
+        <result property="openid1"    column="openid1"    />
+        <result property="openid2"    column="openid2"    />
+        <result property="unionid"    column="unionid"    />
+        <result property="phone"    column="phone"    />
+        <result property="headimg"    column="headimg"    />
+        <result property="username"    column="username"    />
+        <result property="nickname"    column="nickname"    />
+        <result property="password"    column="password"    />
+        <result property="regionProvince"    column="region_province"    />
+        <result property="regionCity"    column="region_city"    />
+        <result property="regionArea"    column="region_area"    />
+        <result property="baseAge"    column="base_age"    />
+        <result property="baseSex"    column="base_sex"    />
+        <result property="baseHeight"    column="base_height"    />
+        <result property="baseWeight"    column="base_weight"    />
+        <result property="baseBirthday"    column="base_birthday"    />
+        <result property="coinTotal"    column="coin_total"    />
+        <result property="coinUsed"    column="coin_used"    />
+        <result property="status"    column="status"    />
+        <result property="deleted"    column="deleted"    />
+        <result property="createAt"    column="create_at"    />
+    </resultMap>
+
+    <sql id="selectDataMemberVo">
+        select id, from, token, tokenv, openid1, openid2, unionid, phone, headimg, username, nickname, password, region_province, region_city, region_area, base_age, base_sex, base_height, base_weight, base_birthday, coin_total, coin_used, status, deleted, create_at from data_member
+    </sql>
+
+    <select id="selectDataMemberList" parameterType="DataMember" resultMap="DataMemberResult">
+        <include refid="selectDataMemberVo"/>
+        <where>  
+            <if test="from != null "> and from = #{from}</if>
+            <if test="token != null  and token != ''"> and token = #{token}</if>
+            <if test="tokenv != null  and tokenv != ''"> and tokenv = #{tokenv}</if>
+            <if test="openid1 != null  and openid1 != ''"> and openid1 = #{openid1}</if>
+            <if test="openid2 != null  and openid2 != ''"> and openid2 = #{openid2}</if>
+            <if test="unionid != null  and unionid != ''"> and unionid = #{unionid}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="headimg != null  and headimg != ''"> and headimg = #{headimg}</if>
+            <if test="username != null  and username != ''"> and username like concat('%', #{username}, '%')</if>
+            <if test="nickname != null  and nickname != ''"> and nickname like concat('%', #{nickname}, '%')</if>
+            <if test="password != null  and password != ''"> and password = #{password}</if>
+            <if test="regionProvince != null  and regionProvince != ''"> and region_province = #{regionProvince}</if>
+            <if test="regionCity != null  and regionCity != ''"> and region_city = #{regionCity}</if>
+            <if test="regionArea != null  and regionArea != ''"> and region_area = #{regionArea}</if>
+            <if test="baseAge != null "> and base_age = #{baseAge}</if>
+            <if test="baseSex != null  and baseSex != ''"> and base_sex = #{baseSex}</if>
+            <if test="baseHeight != null  and baseHeight != ''"> and base_height = #{baseHeight}</if>
+            <if test="baseWeight != null  and baseWeight != ''"> and base_weight = #{baseWeight}</if>
+            <if test="baseBirthday != null  and baseBirthday != ''"> and base_birthday = #{baseBirthday}</if>
+            <if test="coinTotal != null "> and coin_total = #{coinTotal}</if>
+            <if test="coinUsed != null "> and coin_used = #{coinUsed}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="deleted != null "> and deleted = #{deleted}</if>
+            <if test="createAt != null "> and create_at = #{createAt}</if>
+        </where>
+    </select>
+    
+    <select id="selectDataMemberById" parameterType="Long" resultMap="DataMemberResult">
+        <include refid="selectDataMemberVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDataMember" parameterType="DataMember" useGeneratedKeys="true" keyProperty="id">
+        insert into data_member
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="from != null">from,</if>
+            <if test="token != null">token,</if>
+            <if test="tokenv != null">tokenv,</if>
+            <if test="openid1 != null">openid1,</if>
+            <if test="openid2 != null">openid2,</if>
+            <if test="unionid != null">unionid,</if>
+            <if test="phone != null">phone,</if>
+            <if test="headimg != null">headimg,</if>
+            <if test="username != null">username,</if>
+            <if test="nickname != null">nickname,</if>
+            <if test="password != null">password,</if>
+            <if test="regionProvince != null">region_province,</if>
+            <if test="regionCity != null">region_city,</if>
+            <if test="regionArea != null">region_area,</if>
+            <if test="baseAge != null">base_age,</if>
+            <if test="baseSex != null">base_sex,</if>
+            <if test="baseHeight != null">base_height,</if>
+            <if test="baseWeight != null">base_weight,</if>
+            <if test="baseBirthday != null">base_birthday,</if>
+            <if test="coinTotal != null">coin_total,</if>
+            <if test="coinUsed != null">coin_used,</if>
+            <if test="status != null">status,</if>
+            <if test="deleted != null">deleted,</if>
+            <if test="createAt != null">create_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="from != null">#{from},</if>
+            <if test="token != null">#{token},</if>
+            <if test="tokenv != null">#{tokenv},</if>
+            <if test="openid1 != null">#{openid1},</if>
+            <if test="openid2 != null">#{openid2},</if>
+            <if test="unionid != null">#{unionid},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="headimg != null">#{headimg},</if>
+            <if test="username != null">#{username},</if>
+            <if test="nickname != null">#{nickname},</if>
+            <if test="password != null">#{password},</if>
+            <if test="regionProvince != null">#{regionProvince},</if>
+            <if test="regionCity != null">#{regionCity},</if>
+            <if test="regionArea != null">#{regionArea},</if>
+            <if test="baseAge != null">#{baseAge},</if>
+            <if test="baseSex != null">#{baseSex},</if>
+            <if test="baseHeight != null">#{baseHeight},</if>
+            <if test="baseWeight != null">#{baseWeight},</if>
+            <if test="baseBirthday != null">#{baseBirthday},</if>
+            <if test="coinTotal != null">#{coinTotal},</if>
+            <if test="coinUsed != null">#{coinUsed},</if>
+            <if test="status != null">#{status},</if>
+            <if test="deleted != null">#{deleted},</if>
+            <if test="createAt != null">#{createAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDataMember" parameterType="DataMember">
+        update data_member
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="from != null">from = #{from},</if>
+            <if test="token != null">token = #{token},</if>
+            <if test="tokenv != null">tokenv = #{tokenv},</if>
+            <if test="openid1 != null">openid1 = #{openid1},</if>
+            <if test="openid2 != null">openid2 = #{openid2},</if>
+            <if test="unionid != null">unionid = #{unionid},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="headimg != null">headimg = #{headimg},</if>
+            <if test="username != null">username = #{username},</if>
+            <if test="nickname != null">nickname = #{nickname},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="regionProvince != null">region_province = #{regionProvince},</if>
+            <if test="regionCity != null">region_city = #{regionCity},</if>
+            <if test="regionArea != null">region_area = #{regionArea},</if>
+            <if test="baseAge != null">base_age = #{baseAge},</if>
+            <if test="baseSex != null">base_sex = #{baseSex},</if>
+            <if test="baseHeight != null">base_height = #{baseHeight},</if>
+            <if test="baseWeight != null">base_weight = #{baseWeight},</if>
+            <if test="baseBirthday != null">base_birthday = #{baseBirthday},</if>
+            <if test="coinTotal != null">coin_total = #{coinTotal},</if>
+            <if test="coinUsed != null">coin_used = #{coinUsed},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="deleted != null">deleted = #{deleted},</if>
+            <if test="createAt != null">create_at = #{createAt},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDataMemberById" parameterType="Long">
+        delete from data_member where id = #{id}
+    </delete>
+
+    <delete id="deleteDataMemberByIds" parameterType="String">
+        delete from data_member where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

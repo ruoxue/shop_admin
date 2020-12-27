@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.shop.mapper.DataNewsItemMapper">
+    
+    <resultMap type="DataNewsItem" id="DataNewsItemResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="mark"    column="mark"    />
+        <result property="cover"    column="cover"    />
+        <result property="remark"    column="remark"    />
+        <result property="content"    column="content"    />
+        <result property="numLike"    column="num_like"    />
+        <result property="numRead"    column="num_read"    />
+        <result property="numCollect"    column="num_collect"    />
+        <result property="numComment"    column="num_comment"    />
+        <result property="sort"    column="sort"    />
+        <result property="status"    column="status"    />
+        <result property="deleted"    column="deleted"    />
+        <result property="createAt"    column="create_at"    />
+    </resultMap>
+
+    <sql id="selectDataNewsItemVo">
+        select id, name, mark, cover, remark, content, num_like, num_read, num_collect, num_comment, sort, status, deleted, create_at from data_news_item
+    </sql>
+
+    <select id="selectDataNewsItemList" parameterType="DataNewsItem" resultMap="DataNewsItemResult">
+        <include refid="selectDataNewsItemVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="mark != null  and mark != ''"> and mark = #{mark}</if>
+            <if test="cover != null  and cover != ''"> and cover = #{cover}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="numLike != null "> and num_like = #{numLike}</if>
+            <if test="numRead != null "> and num_read = #{numRead}</if>
+            <if test="numCollect != null "> and num_collect = #{numCollect}</if>
+            <if test="numComment != null "> and num_comment = #{numComment}</if>
+            <if test="sort != null "> and sort = #{sort}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="deleted != null "> and deleted = #{deleted}</if>
+            <if test="createAt != null "> and create_at = #{createAt}</if>
+        </where>
+    </select>
+    
+    <select id="selectDataNewsItemById" parameterType="Long" resultMap="DataNewsItemResult">
+        <include refid="selectDataNewsItemVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDataNewsItem" parameterType="DataNewsItem" useGeneratedKeys="true" keyProperty="id">
+        insert into data_news_item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="mark != null">mark,</if>
+            <if test="cover != null">cover,</if>
+            <if test="remark != null">remark,</if>
+            <if test="content != null">content,</if>
+            <if test="numLike != null">num_like,</if>
+            <if test="numRead != null">num_read,</if>
+            <if test="numCollect != null">num_collect,</if>
+            <if test="numComment != null">num_comment,</if>
+            <if test="sort != null">sort,</if>
+            <if test="status != null">status,</if>
+            <if test="deleted != null">deleted,</if>
+            <if test="createAt != null">create_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="mark != null">#{mark},</if>
+            <if test="cover != null">#{cover},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="content != null">#{content},</if>
+            <if test="numLike != null">#{numLike},</if>
+            <if test="numRead != null">#{numRead},</if>
+            <if test="numCollect != null">#{numCollect},</if>
+            <if test="numComment != null">#{numComment},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="status != null">#{status},</if>
+            <if test="deleted != null">#{deleted},</if>
+            <if test="createAt != null">#{createAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDataNewsItem" parameterType="DataNewsItem">
+        update data_news_item
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="mark != null">mark = #{mark},</if>
+            <if test="cover != null">cover = #{cover},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="numLike != null">num_like = #{numLike},</if>
+            <if test="numRead != null">num_read = #{numRead},</if>
+            <if test="numCollect != null">num_collect = #{numCollect},</if>
+            <if test="numComment != null">num_comment = #{numComment},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="deleted != null">deleted = #{deleted},</if>
+            <if test="createAt != null">create_at = #{createAt},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDataNewsItemById" parameterType="Long">
+        delete from data_news_item where id = #{id}
+    </delete>
+
+    <delete id="deleteDataNewsItemByIds" parameterType="String">
+        delete from data_news_item where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.shop.mapper.DataGoodsSpecMapper">
+    
+    <resultMap type="DataGoodsSpec" id="DataGoodsSpecResult">
+        <result property="goodsSpecId"    column="goods_spec_id"    />
+        <result property="goodsId"    column="goods_id"    />
+        <result property="goodsNo"    column="goods_no"    />
+        <result property="goodsPrice"    column="goods_price"    />
+        <result property="linePrice"    column="line_price"    />
+        <result property="stockNum"    column="stock_num"    />
+        <result property="goodsSales"    column="goods_sales"    />
+        <result property="goodsWeight"    column="goods_weight"    />
+        <result property="wxappId"    column="wxapp_id"    />
+        <result property="specSkuId"    column="spec_sku_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectDataGoodsSpecVo">
+        select goods_spec_id, goods_id, goods_no, goods_price, line_price, stock_num, goods_sales, goods_weight, wxapp_id, spec_sku_id, create_time, update_time from data_goods_spec
+    </sql>
+
+    <select id="selectDataGoodsSpecList" parameterType="DataGoodsSpec" resultMap="DataGoodsSpecResult">
+        <include refid="selectDataGoodsSpecVo"/>
+        <where>  
+            <if test="goodsId != null "> and goods_id = #{goodsId}</if>
+            <if test="goodsNo != null  and goodsNo != ''"> and goods_no = #{goodsNo}</if>
+            <if test="goodsPrice != null "> and goods_price = #{goodsPrice}</if>
+            <if test="linePrice != null "> and line_price = #{linePrice}</if>
+            <if test="stockNum != null "> and stock_num = #{stockNum}</if>
+            <if test="goodsSales != null "> and goods_sales = #{goodsSales}</if>
+            <if test="goodsWeight != null "> and goods_weight = #{goodsWeight}</if>
+            <if test="wxappId != null "> and wxapp_id = #{wxappId}</if>
+            <if test="specSkuId != null  and specSkuId != ''"> and spec_sku_id = #{specSkuId}</if>
+        </where>
+    </select>
+    
+    <select id="selectDataGoodsSpecById" parameterType="Long" resultMap="DataGoodsSpecResult">
+        <include refid="selectDataGoodsSpecVo"/>
+        where goods_spec_id = #{goodsSpecId}
+    </select>
+        
+    <insert id="insertDataGoodsSpec" parameterType="DataGoodsSpec" useGeneratedKeys="true" keyProperty="goodsSpecId">
+        insert into data_goods_spec
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsId != null">goods_id,</if>
+            <if test="goodsNo != null and goodsNo != ''">goods_no,</if>
+            <if test="goodsPrice != null">goods_price,</if>
+            <if test="linePrice != null">line_price,</if>
+            <if test="stockNum != null">stock_num,</if>
+            <if test="goodsSales != null">goods_sales,</if>
+            <if test="goodsWeight != null">goods_weight,</if>
+            <if test="wxappId != null">wxapp_id,</if>
+            <if test="specSkuId != null and specSkuId != ''">spec_sku_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodsId != null">#{goodsId},</if>
+            <if test="goodsNo != null and goodsNo != ''">#{goodsNo},</if>
+            <if test="goodsPrice != null">#{goodsPrice},</if>
+            <if test="linePrice != null">#{linePrice},</if>
+            <if test="stockNum != null">#{stockNum},</if>
+            <if test="goodsSales != null">#{goodsSales},</if>
+            <if test="goodsWeight != null">#{goodsWeight},</if>
+            <if test="wxappId != null">#{wxappId},</if>
+            <if test="specSkuId != null and specSkuId != ''">#{specSkuId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDataGoodsSpec" parameterType="DataGoodsSpec">
+        update data_goods_spec
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="goodsId != null">goods_id = #{goodsId},</if>
+            <if test="goodsNo != null and goodsNo != ''">goods_no = #{goodsNo},</if>
+            <if test="goodsPrice != null">goods_price = #{goodsPrice},</if>
+            <if test="linePrice != null">line_price = #{linePrice},</if>
+            <if test="stockNum != null">stock_num = #{stockNum},</if>
+            <if test="goodsSales != null">goods_sales = #{goodsSales},</if>
+            <if test="goodsWeight != null">goods_weight = #{goodsWeight},</if>
+            <if test="wxappId != null">wxapp_id = #{wxappId},</if>
+            <if test="specSkuId != null and specSkuId != ''">spec_sku_id = #{specSkuId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where goods_spec_id = #{goodsSpecId}
+    </update>
+
+    <delete id="deleteDataGoodsSpecById" parameterType="Long">
+        delete from data_goods_spec where goods_spec_id = #{goodsSpecId}
+    </delete>
+
+    <delete id="deleteDataGoodsSpecByIds" parameterType="String">
+        delete from data_goods_spec where goods_spec_id in 
+        <foreach item="goodsSpecId" collection="array" open="(" separator="," close=")">
+            #{goodsSpecId}
+        </foreach>
+    </delete>
+    
+</mapper>

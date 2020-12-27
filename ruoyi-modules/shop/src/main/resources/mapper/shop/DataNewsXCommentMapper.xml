@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.shop.mapper.DataNewsXCommentMapper">
+    
+    <resultMap type="DataNewsXComment" id="DataNewsXCommentResult">
+        <result property="id"    column="id"    />
+        <result property="cid"    column="cid"    />
+        <result property="mid"    column="mid"    />
+        <result property="content"    column="content"    />
+        <result property="createAt"    column="create_at"    />
+    </resultMap>
+
+    <sql id="selectDataNewsXCommentVo">
+        select id, cid, mid, content, create_at from data_news_x_comment
+    </sql>
+
+    <select id="selectDataNewsXCommentList" parameterType="DataNewsXComment" resultMap="DataNewsXCommentResult">
+        <include refid="selectDataNewsXCommentVo"/>
+        <where>  
+            <if test="cid != null "> and cid = #{cid}</if>
+            <if test="mid != null "> and mid = #{mid}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="createAt != null "> and create_at = #{createAt}</if>
+        </where>
+    </select>
+    
+    <select id="selectDataNewsXCommentById" parameterType="Long" resultMap="DataNewsXCommentResult">
+        <include refid="selectDataNewsXCommentVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDataNewsXComment" parameterType="DataNewsXComment" useGeneratedKeys="true" keyProperty="id">
+        insert into data_news_x_comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cid != null">cid,</if>
+            <if test="mid != null">mid,</if>
+            <if test="content != null">content,</if>
+            <if test="createAt != null">create_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cid != null">#{cid},</if>
+            <if test="mid != null">#{mid},</if>
+            <if test="content != null">#{content},</if>
+            <if test="createAt != null">#{createAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDataNewsXComment" parameterType="DataNewsXComment">
+        update data_news_x_comment
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cid != null">cid = #{cid},</if>
+            <if test="mid != null">mid = #{mid},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="createAt != null">create_at = #{createAt},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDataNewsXCommentById" parameterType="Long">
+        delete from data_news_x_comment where id = #{id}
+    </delete>
+
+    <delete id="deleteDataNewsXCommentByIds" parameterType="String">
+        delete from data_news_x_comment where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

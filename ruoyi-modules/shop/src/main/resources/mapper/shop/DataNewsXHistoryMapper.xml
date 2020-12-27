@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.shop.mapper.DataNewsXHistoryMapper">
+    
+    <resultMap type="DataNewsXHistory" id="DataNewsXHistoryResult">
+        <result property="id"    column="id"    />
+        <result property="cid"    column="cid"    />
+        <result property="mid"    column="mid"    />
+        <result property="createAt"    column="create_at"    />
+    </resultMap>
+
+    <sql id="selectDataNewsXHistoryVo">
+        select id, cid, mid, create_at from data_news_x_history
+    </sql>
+
+    <select id="selectDataNewsXHistoryList" parameterType="DataNewsXHistory" resultMap="DataNewsXHistoryResult">
+        <include refid="selectDataNewsXHistoryVo"/>
+        <where>  
+            <if test="cid != null "> and cid = #{cid}</if>
+            <if test="mid != null "> and mid = #{mid}</if>
+            <if test="createAt != null "> and create_at = #{createAt}</if>
+        </where>
+    </select>
+    
+    <select id="selectDataNewsXHistoryById" parameterType="Long" resultMap="DataNewsXHistoryResult">
+        <include refid="selectDataNewsXHistoryVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDataNewsXHistory" parameterType="DataNewsXHistory" useGeneratedKeys="true" keyProperty="id">
+        insert into data_news_x_history
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cid != null">cid,</if>
+            <if test="mid != null">mid,</if>
+            <if test="createAt != null">create_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cid != null">#{cid},</if>
+            <if test="mid != null">#{mid},</if>
+            <if test="createAt != null">#{createAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDataNewsXHistory" parameterType="DataNewsXHistory">
+        update data_news_x_history
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cid != null">cid = #{cid},</if>
+            <if test="mid != null">mid = #{mid},</if>
+            <if test="createAt != null">create_at = #{createAt},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDataNewsXHistoryById" parameterType="Long">
+        delete from data_news_x_history where id = #{id}
+    </delete>
+
+    <delete id="deleteDataNewsXHistoryByIds" parameterType="String">
+        delete from data_news_x_history where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

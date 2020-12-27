@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.shop.mapper.DataDeliveryMapper">
+    
+    <resultMap type="DataDelivery" id="DataDeliveryResult">
+        <result property="deliveryId"    column="delivery_id"    />
+        <result property="name"    column="name"    />
+        <result property="method"    column="method"    />
+        <result property="sort"    column="sort"    />
+        <result property="wxappId"    column="wxapp_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectDataDeliveryVo">
+        select delivery_id, name, method, sort, wxapp_id, create_time, update_time from data_delivery
+    </sql>
+
+    <select id="selectDataDeliveryList" parameterType="DataDelivery" resultMap="DataDeliveryResult">
+        <include refid="selectDataDeliveryVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="method != null "> and method = #{method}</if>
+            <if test="sort != null "> and sort = #{sort}</if>
+            <if test="wxappId != null "> and wxapp_id = #{wxappId}</if>
+        </where>
+    </select>
+    
+    <select id="selectDataDeliveryById" parameterType="Long" resultMap="DataDeliveryResult">
+        <include refid="selectDataDeliveryVo"/>
+        where delivery_id = #{deliveryId}
+    </select>
+        
+    <insert id="insertDataDelivery" parameterType="DataDelivery" useGeneratedKeys="true" keyProperty="deliveryId">
+        insert into data_delivery
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+            <if test="method != null">method,</if>
+            <if test="sort != null">sort,</if>
+            <if test="wxappId != null">wxapp_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="method != null">#{method},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="wxappId != null">#{wxappId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDataDelivery" parameterType="DataDelivery">
+        update data_delivery
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="method != null">method = #{method},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="wxappId != null">wxapp_id = #{wxappId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where delivery_id = #{deliveryId}
+    </update>
+
+    <delete id="deleteDataDeliveryById" parameterType="Long">
+        delete from data_delivery where delivery_id = #{deliveryId}
+    </delete>
+
+    <delete id="deleteDataDeliveryByIds" parameterType="String">
+        delete from data_delivery where delivery_id in 
+        <foreach item="deliveryId" collection="array" open="(" separator="," close=")">
+            #{deliveryId}
+        </foreach>
+    </delete>
+    
+</mapper>

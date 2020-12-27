@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.shop.mapper.DataTruckRegionMapper">
+    
+    <resultMap type="DataTruckRegion" id="DataTruckRegionResult">
+        <result property="id"    column="id"    />
+        <result property="pid"    column="pid"    />
+        <result property="first"    column="first"    />
+        <result property="short"    column="short"    />
+        <result property="name"    column="name"    />
+        <result property="level"    column="level"    />
+        <result property="pinyin"    column="pinyin"    />
+        <result property="code"    column="code"    />
+        <result property="status"    column="status"    />
+        <result property="lng"    column="lng"    />
+        <result property="lat"    column="lat"    />
+    </resultMap>
+
+    <sql id="selectDataTruckRegionVo">
+        select id, pid, first, short, name, level, pinyin, code, status, lng, lat from data_truck_region
+    </sql>
+
+    <select id="selectDataTruckRegionList" parameterType="DataTruckRegion" resultMap="DataTruckRegionResult">
+        <include refid="selectDataTruckRegionVo"/>
+        <where>  
+            <if test="pid != null "> and pid = #{pid}</if>
+            <if test="first != null  and first != ''"> and first = #{first}</if>
+            <if test="short != null  and short != ''"> and short = #{short}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="level != null "> and level = #{level}</if>
+            <if test="pinyin != null  and pinyin != ''"> and pinyin = #{pinyin}</if>
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="lng != null  and lng != ''"> and lng = #{lng}</if>
+            <if test="lat != null  and lat != ''"> and lat = #{lat}</if>
+        </where>
+    </select>
+    
+    <select id="selectDataTruckRegionById" parameterType="Long" resultMap="DataTruckRegionResult">
+        <include refid="selectDataTruckRegionVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDataTruckRegion" parameterType="DataTruckRegion" useGeneratedKeys="true" keyProperty="id">
+        insert into data_truck_region
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pid != null">pid,</if>
+            <if test="first != null">first,</if>
+            <if test="short != null">short,</if>
+            <if test="name != null">name,</if>
+            <if test="level != null">level,</if>
+            <if test="pinyin != null">pinyin,</if>
+            <if test="code != null">code,</if>
+            <if test="status != null">status,</if>
+            <if test="lng != null">lng,</if>
+            <if test="lat != null">lat,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pid != null">#{pid},</if>
+            <if test="first != null">#{first},</if>
+            <if test="short != null">#{short},</if>
+            <if test="name != null">#{name},</if>
+            <if test="level != null">#{level},</if>
+            <if test="pinyin != null">#{pinyin},</if>
+            <if test="code != null">#{code},</if>
+            <if test="status != null">#{status},</if>
+            <if test="lng != null">#{lng},</if>
+            <if test="lat != null">#{lat},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDataTruckRegion" parameterType="DataTruckRegion">
+        update data_truck_region
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pid != null">pid = #{pid},</if>
+            <if test="first != null">first = #{first},</if>
+            <if test="short != null">short = #{short},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="pinyin != null">pinyin = #{pinyin},</if>
+            <if test="code != null">code = #{code},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="lng != null">lng = #{lng},</if>
+            <if test="lat != null">lat = #{lat},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDataTruckRegionById" parameterType="Long">
+        delete from data_truck_region where id = #{id}
+    </delete>
+
+    <delete id="deleteDataTruckRegionByIds" parameterType="String">
+        delete from data_truck_region where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

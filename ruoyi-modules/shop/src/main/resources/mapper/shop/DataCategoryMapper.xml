@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.shop.mapper.DataCategoryMapper">
+    
+    <resultMap type="DataCategory" id="DataCategoryResult">
+        <result property="categoryId"    column="category_id"    />
+        <result property="name"    column="name"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="imageId"    column="image_id"    />
+        <result property="sort"    column="sort"    />
+        <result property="wxappId"    column="wxapp_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="cover"    column="cover"    />
+    </resultMap>
+
+    <sql id="selectDataCategoryVo">
+        select category_id, name, parent_id, image_id, sort, wxapp_id, create_time, update_time, cover from data_category
+    </sql>
+
+    <select id="selectDataCategoryList" parameterType="DataCategory" resultMap="DataCategoryResult">
+        <include refid="selectDataCategoryVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+            <if test="imageId != null "> and image_id = #{imageId}</if>
+            <if test="sort != null "> and sort = #{sort}</if>
+            <if test="wxappId != null "> and wxapp_id = #{wxappId}</if>
+            <if test="cover != null  and cover != ''"> and cover = #{cover}</if>
+        </where>
+    </select>
+    
+    <select id="selectDataCategoryById" parameterType="Long" resultMap="DataCategoryResult">
+        <include refid="selectDataCategoryVo"/>
+        where category_id = #{categoryId}
+    </select>
+        
+    <insert id="insertDataCategory" parameterType="DataCategory" useGeneratedKeys="true" keyProperty="categoryId">
+        insert into data_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="imageId != null">image_id,</if>
+            <if test="sort != null">sort,</if>
+            <if test="wxappId != null">wxapp_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="cover != null">cover,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="imageId != null">#{imageId},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="wxappId != null">#{wxappId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="cover != null">#{cover},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDataCategory" parameterType="DataCategory">
+        update data_category
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="imageId != null">image_id = #{imageId},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="wxappId != null">wxapp_id = #{wxappId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="cover != null">cover = #{cover},</if>
+        </trim>
+        where category_id = #{categoryId}
+    </update>
+
+    <delete id="deleteDataCategoryById" parameterType="Long">
+        delete from data_category where category_id = #{categoryId}
+    </delete>
+
+    <delete id="deleteDataCategoryByIds" parameterType="String">
+        delete from data_category where category_id in 
+        <foreach item="categoryId" collection="array" open="(" separator="," close=")">
+            #{categoryId}
+        </foreach>
+    </delete>
+    
+</mapper>
