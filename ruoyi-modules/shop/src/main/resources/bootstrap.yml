@@ -1,12 +1,12 @@
 # Tomcat
 server:
-  port: 9203
+  port: 9205
 
 # Spring
 spring: 
   application:
     # 应用名称
-    name: ruoyi-shop
+    name: ruoyi-message
   profiles:
     # 环境配置
     active: dev

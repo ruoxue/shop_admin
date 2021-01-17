@@ -10,7 +10,6 @@ import org.springframework.cloud.client.SpringCloudApplication;
 @EnableRyFeignClients
 @SpringCloudApplication
 @EnableCustomSwagger2
-
 public class ShopApplication {
     public static void main(String[] args)
     {
@@ -27,3 +26,5 @@ public class ShopApplication {
                 " ''-'   `'-'    `-..-'              ");
     }
 }
+
+//https://touch.10086.cn/i/mobile/stc-recharge-result.html?orderId=503512812064164816&requestId=20210116164013057168237531525300&hmac=02fdd28c2f38048eebd3d9997ba58095&reserved2=credit&reserved1=0003xWAP&status=0&ts=20210116164808
