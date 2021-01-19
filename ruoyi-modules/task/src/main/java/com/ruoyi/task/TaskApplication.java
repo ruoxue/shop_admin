@@ -1,21 +1,24 @@
-package com.ruoyi.shop;
+package com.ruoyi.task;
+
 
 import com.ruoyi.common.security.annotation.EnableCustomConfig;
 import com.ruoyi.common.security.annotation.EnableRyFeignClients;
 import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
 
 @EnableCustomConfig
+@EnableCustomSwagger2
 @EnableRyFeignClients
 @SpringCloudApplication
-@EnableCustomSwagger2
+public class TaskApplication {
 
-public class ShopApplication {
-    public static void main(String[] args)
-    {
-        SpringApplication.run(ShopApplication.class, args);
-        System.out.println("(♥◠‿◠)ﾉﾞ 商城模块启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
+
+
+    public static void main(String[] args) {
+        SpringApplication.run(TaskApplication.class, args);
+        System.out.println("(♥◠‿◠)ﾉﾞ  task生成模块启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
                 " .-------.       ____     __        \n" +
                 " |  _ _   \\      \\   \\   /  /    \n" +
                 " | ( ' )  |       \\  _. /  '       \n" +

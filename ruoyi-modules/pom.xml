@@ -15,6 +15,7 @@
         <module>ruoyi-file</module>
         <module>shop</module>
         <module>message</module>
+        <module>task</module>
 
     </modules>
 

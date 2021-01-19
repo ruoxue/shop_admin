@@ -215,6 +215,7 @@
 		<module>ruoyi-api</module>
 		<module>ruoyi-common</module>
         <module>down</module>
+        <module>task</module>
 
     </modules>
     <packaging>pom</packaging>
