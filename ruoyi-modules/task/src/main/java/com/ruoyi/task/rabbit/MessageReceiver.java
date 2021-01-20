@@ -25,7 +25,7 @@ public class MessageReceiver {
         switch (msg.getType()){
 
             case 0:
-                msg.setDelayedTime(10L);
+                msg.setDelayedTime(1L);
                 messageService.sendMsg(msg);
                 break;
 
