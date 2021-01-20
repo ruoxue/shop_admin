@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.aspectj.lang.JoinPoint;
@@ -28,6 +29,8 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessStatus;
 import com.ruoyi.common.log.service.AsyncLogService;
 import com.ruoyi.system.api.domain.SysOperLog;
+
+import static com.ruoyi.common.core.utils.ServletUtils.getRequest;
 
 /**
  * 操作日志记录处理
@@ -87,18 +90,29 @@ public class LogAspect
             SysOperLog operLog = new SysOperLog();
             operLog.setStatus(BusinessStatus.SUCCESS.ordinal());
             // 请求的地址
-            String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
+            String ip = IpUtils.getIpAddr(getRequest());
             operLog.setOperIp(ip);
             // 返回参数
             operLog.setJsonResult(JSON.toJSONString(jsonResult));
 
-            operLog.setOperUrl(ServletUtils.getRequest().getRequestURI());
-            HttpServletRequest request = ServletUtils.getRequest();
-            String username = request.getHeader(CacheConstants.DETAILS_USERNAME);
-            if (StringUtils.isNotBlank(username))
-            {
-                operLog.setOperName(username);
+
+            if (getRequest()!=null){
+
+                operLog.setOperUrl(Objects.requireNonNull(getRequest()).getRequestURI());
+                HttpServletRequest request = getRequest();
+                String username = request.getHeader(CacheConstants.DETAILS_USERNAME);
+                if (StringUtils.isNotBlank(username))
+                {
+                    operLog.setOperName(username);
+                }
+                operLog.setRequestMethod(getRequest().getMethod());
+
+            }else {
+                operLog.setOperUrl("rabbit://");
+                operLog.setRequestMethod("socket");
+
             }
+
 
             if (e != null)
             {
@@ -110,7 +124,7 @@ public class LogAspect
             String methodName = joinPoint.getSignature().getName();
             operLog.setMethod(className + "." + methodName + "()");
             // 设置请求方式
-            operLog.setRequestMethod(ServletUtils.getRequest().getMethod());
+
             // 处理设置注解上的参数
             getControllerMethodDescription(joinPoint, controllerLog, operLog);
             // 保存数据库

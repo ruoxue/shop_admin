@@ -1,4 +1,4 @@
-package com.ruoyi.task;
+package com.ruoyi.task.rabbit;
 
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
