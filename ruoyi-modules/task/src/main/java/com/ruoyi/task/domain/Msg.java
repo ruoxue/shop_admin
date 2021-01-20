@@ -7,6 +7,15 @@ public class Msg  implements Serializable {
     private  Long sendTime;
     private  Long delayedTime;
     private  String  content;
+    private int type;
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 
     public Long getSendTime() {
         return sendTime;

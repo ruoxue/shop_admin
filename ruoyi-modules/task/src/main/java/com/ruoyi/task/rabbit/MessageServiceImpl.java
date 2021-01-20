@@ -33,18 +33,10 @@ public class MessageServiceImpl {
     @Log(title = "发送定时消息", businessType = BusinessType.OTHER)
     public void sendMsg(String queueName, String msg, long time) {
 
-
-        rabbitTemplate.setConfirmCallback((correlationData, b, s) -> {
-            log.info(b+"队列名:" + queueName + "-消息体" + msg
-                    + "-消息延迟时间" + time+"correlationData"+correlationData);
-
-
-        });
-
         rabbitTemplate.convertAndSend(RabbitConstanct.EXCHANGE, queueName, msg, new MessagePostProcessor() {
             @Override
             public Message postProcessMessage(Message message) throws AmqpException {
-                message.getMessageProperties().setHeader(RabbitConstanct.DELAY, time);
+                message.getMessageProperties().setHeader(RabbitConstanct.DELAY, time*1000);
                 return message;
             }
         });
@@ -68,13 +60,8 @@ public class MessageServiceImpl {
     public void sendMsg(String queueName, String msg) {
 
         MessageProperties messageProperties = new MessageProperties();
-
         Message message = new Message(msg.getBytes(), messageProperties);
-
-
         rabbitTemplate.send(RabbitConstanct.EXCHANGE, queueName, message);
-
-//        sendMsg(queueName, msg, 3000);
 
     }
 }
